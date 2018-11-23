@@ -7,7 +7,7 @@ Welcome to my Netflix take home assessment. Take a look at the instructions belo
 > cd netflix
 > yarn
 > yarn start
-> Navigate to http://localhost:49776/?search=batman in Chrome, Firefox, Safari or Edge.
+> Navigate to http://localhost:1234/?search=batman in Chrome, Firefox, Safari or Edge.
 ```
 
 ## Notes:
