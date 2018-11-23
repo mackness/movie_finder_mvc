@@ -5,6 +5,7 @@ export default class Model {
 
     constructor() {
         this.currentMovieList = [];
+        this.movieDetailsCache = {};
     }
 
     /**
@@ -33,5 +34,25 @@ export default class Model {
                     return response;
                 })
                 .then((response) => this.validateApiResponse(response));
+    }
+
+    /**
+     * @param  {string} id movie imdbID as a string
+     * @return  {ApiResponse} details API response
+     * @description Get movie detials by movie Id
+     */
+    loadMovieDetails(index, id) {
+        if (this.movieDetailsCache[index]) {
+            return Promise.resolve(this.movieDetailsCache[index]);
+        } else {
+            return axios
+                .get(`http://www.omdbapi.com/?apikey=${process.env.API_TOKEN}&i=${encodeURIComponent(id)}`)
+                .then((response) => this.movieDetailsCache[index] = response)
+                .then((response) => this.validateApiResponse(response));
+        }
+    }
+
+    purgeMovieDetailsCache = () => {
+        this.movieDetailsCache = {};
     }
 }

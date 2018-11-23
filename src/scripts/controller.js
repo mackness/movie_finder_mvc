@@ -1,3 +1,4 @@
+import { ApiResponse } from './types';
 import { qs, getSearchParam } from './utilities';
 
 export default class Controller {
@@ -5,7 +6,13 @@ export default class Controller {
         this.model = model;
         this.view = view;
 
+        this.MEDIUM_BREAKPOINT_WIDTH = 980;
+        this.DETAILS_CARD_WIDTH = 225;
+
         view.bindOnInput(this.onSearchInput.bind(this));
+        view.bindMovieDetailButtonClick(this.displayMovieDetailPanel.bind(this));
+        view.bindMovieMouseOver(this.displayMovieDetailPanel.bind(this));
+        view.bindMovieMouseExit(this.onMovieMouseExit.bind(this));
     }
 
     /**
@@ -14,12 +21,14 @@ export default class Controller {
      * view for rendering
      */
     processApiResponse = (response) => {
+        this.model.purgeMovieDetailsCache();
         this.view.renderMovies(response.data.Search);
     }
 
     /**
      * @description setupView runs when the view loads for the first time and checks
-     * if the search query param exists, If it does execute a movie search.
+     * if the search query param exists, If it does execute a movie search with
+     * the valud of the search param.
      */
     setupView = () => {
         const term = getSearchParam('search');
@@ -42,4 +51,54 @@ export default class Controller {
         }
     }
 
+    /**
+     * @param  {!{x: number, y: number}} response api response object
+     * @description should take the api response and pass it to the 
+     * view for rendering
+     */
+    calculateMovieDetailPosition = (coords) => {
+        const { clientWidth } = qs('.hover-target');
+        if (window.innerWidth <= this.MEDIUM_BREAKPOINT_WIDTH) {
+            return {
+                top: coords.y,
+                left: 10
+            }
+        } else {
+            return {
+                top: coords.y,
+                left: (coords.x >= clientWidth * 3) ? clientWidth * 3 - (this.DETAILS_CARD_WIDTH / 1.5): coords.x + clientWidth
+            }
+        }
+    }
+
+    /**
+     * @param  {HTMLElement} target mouseover HTML target element
+     * @param  {number} _index index of movie grid item
+     * @description should take the api response and pass it to the
+     * view for rendering
+     */
+    displayMovieDetailPanel = (target, _index) => {
+        const index = parseInt(_index, 10);
+        const id = this.model.currentMovieList.length && this.model.currentMovieList[index].imdbID;
+        const position = this.calculateMovieDetailPosition({
+            x: target.offsetParent.offsetLeft, 
+            y: target.offsetParent.offsetTop
+        });
+
+        this.view.renderMovieDetailPanel(null, position);
+
+        if (Number.isInteger(index) && id) {
+            this.model.loadMovieDetails(index, id)
+                .then((response) => response.data)
+                .then((response) => this.view.renderMovieDetailPanel(response, position))
+                .catch(() => alert('There was an error loading movie details'));
+        }
+    }
+
+    /**
+     * @description remove details panel from document
+     */
+    onMovieMouseExit = () => {
+        this.view.removeMovieDetailsPanel();
+    }
 }

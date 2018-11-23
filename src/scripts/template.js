@@ -1,3 +1,4 @@
+import { truncateText } from './utilities';
 export default class Template {
 
     movieList(movies) {
@@ -22,4 +23,28 @@ export default class Template {
         }, '');
     }
 
+    movieDetailsPanel(details, style) {
+        return `
+            <div class="movie-details ${details ? '' : 'movie-details--loading'}" style="left: ${style.left}px; top: ${style.top}px">
+                ${details ? (`
+                    <h3 class="movie-details-title">${details.Title}</h3>
+                    <p class="movie-details-text">${details.Year}</p>
+                    <p class="movie-details-text">${details.Director}</p>
+                    <p class="movie-details-text">${truncateText(details.Writer, 150)}</p>
+                    <div class="movie-details-block">
+                        ${details.Ratings.reduce((template, rating) => {
+                            return template + `
+                                <div class="movie-details-rating">
+                                    <span class="movie-details-rating-source">${rating.Source}:</span>
+                                    <span class="movie-details-rating-value">${rating.Value}</span>
+                                </div>
+                            `;
+                        }, '')}
+                    </div>
+                `) : (`
+                    <span>loading...</span>
+                `)}
+            </div>
+        `;
+    }
 }

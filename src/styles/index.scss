@@ -62,3 +62,145 @@ body {
     margin: 86px auto 16px auto;
     @extend %full-width-container;
 }
+
+// Grid Item
+// --------------------------------------------------
+
+.grid-item {
+    width: 100%;
+    padding: 10px;
+
+    @media #{$x-small} {
+        width: 50%;
+    }
+
+    @media #{$small} {
+        width: 25%;
+    }
+}
+
+.grid-item-inner {
+    background: $brand-secondary;
+    border: solid 1px darken($color: $brand-secondary, $amount: 8%);
+    border-radius: 3px;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+}
+
+.hover-target {
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    position: absolute;
+    z-index: $hover-target-inactive-zindex;
+
+    @media #{$x-small} {
+        z-index: $hover-target-active-zindex;
+    }
+}
+
+.grid-item-image {
+    width: 100%;
+    padding-top: 371.27px / 273px * 100%;
+    margin: 0;
+    background-size: cover;
+    background-position: top center;
+    background-repeat: no-repeat;
+}
+
+.grid-item-image--none {
+    background-size: 70px 70px;
+    background-position: center center;
+    background-image: url('../images/image.svg')
+}
+
+.grid-item-meta {
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.grid-item-meta-title {
+    height: 28px;
+    margin: 0;
+    font-size: 1.4em;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+
+.grid-item-meta-type {
+    margin: 0;
+}
+
+.grid-item-button {
+    background: $brand-main;
+    border: 0;
+    color: #fff;
+    flex-grow: 1;
+    padding: 10px;
+    margin: 10px;
+    border-radius: 3px;
+    display: block;
+
+    @media #{$small} {
+        display: none;
+    }
+}
+
+// Movie Detail Panel
+// --------------------------------------------------
+
+.movie-details {
+    background-color: $brand-secondary;
+    height: 325px;
+    width: 225px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: flex;
+    padding: 10px;
+    text-align: center;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    box-shadow: 0 0 0.5rem 0 rgba(0, 0, 0, 0.25);
+    overflow: hidden;
+}
+
+.movie-details--loading {
+    align-items: center;
+    justify-content: center;
+}
+
+.movie-details-block {
+    margin-top: auto;
+}
+
+.movie-details-text {
+    margin: 0 0 10px 0;
+    width: 100%;
+    margin-bottom: 5px;
+    padding-bottom: 10px;
+    font-size: 0.9em;
+}
+
+.movie-details-rating {
+    margin-top: auto;
+    font-size: 14px;
+    margin: 0;
+    overflow: hidden;
+    display: block;
+    font-size: 0.9em;
+
+    span {
+        line-height: 20px;
+    }
+}
+
+.movie-details-rating-value {
+    font-weight: bold;
+}

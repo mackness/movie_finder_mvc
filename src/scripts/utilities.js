@@ -15,7 +15,7 @@ export function on(el, type, handler) {
  * @description Thin wrapper around scope.querySelector
  */
 export function qs(selector, scope) {
-    return document.querySelector(selector) || {};
+    return (scope || document).querySelector(selector) || {};
 }
 
 /**
@@ -24,7 +24,20 @@ export function qs(selector, scope) {
 * @description Thin wrapper around scope.querySelectorAll
  */
 export function qsa(selector, scope) {
-    return document.querySelectorAll(selector) || [];
+    return (scope || document).querySelectorAll(selector) || [];
+}
+
+/**
+ * @param  {string} text string that need to be truncated
+ * @param  {HTMLElement} scope scope for element lookup
+* @description Limints a string to n characters long
+ */
+export function truncateText(text, n) {
+    if (text.length > n) {
+        return `${text.substring(0, n)}...`;
+    } else {
+        return text;
+    }
 }
 
 /**
