@@ -23,8 +23,7 @@ export default class View {
 
     /**
      * @param {function}
-     * @description make sure to use event delegation to bind mouseover event
-     * to an idividual movie item
+     * @description event delegated mouseover for grid items
      */
     bindMovieMouseOver = (handler) => {
         on(this.elements.grid, 'mouseover', (event) => {
@@ -39,8 +38,7 @@ export default class View {
 
     /**
      * @param {function}
-     * @description make sure to use event delegation to bind mouseout event
-     * to an idividual movie item
+     * @description event delegated mouseout for grid items
      */
     bindMovieMouseExit = (handler) => {
         on(this.elements.grid, 'mouseout', (event) => {
@@ -52,8 +50,7 @@ export default class View {
 
     /**
      * @param {function}
-     * @description make sure to use event delegation to bind click event
-     * to an idividual movie item
+     * @description event delegated click for grid item button
      */
     bindMovieDetailButtonClick = (handler) => {
         on(this.elements.grid, 'click', (event) => {
