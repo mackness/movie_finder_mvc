@@ -1,0 +1,13 @@
+# dependencies
+node_modules
+
+# production
+dist
+
+# misc
+.DS_Store
+yarn-error.log
+yarn.lock
+.yarnclean
+.vscode
+.cache
