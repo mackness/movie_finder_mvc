@@ -47,4 +47,12 @@ export default class Template {
             </div>
         `;
     }
+
+    noResultsView(searchTerm) {
+        return `
+            <div class="no-results-view">
+                <h2>No results for: ${searchTerm}</h2>
+            </div>
+        `
+    }
 }

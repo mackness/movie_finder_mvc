@@ -72,6 +72,8 @@ export default class View {
     renderMovies = (movies) => {
         if (movies && movies.length > 0) {
             this.elements.grid.innerHTML = this.template.movieList(movies)
+        } else {
+            this.elements.grid.innerHTML = this.template.noResultsView(this.elements.input.value || getSearchParam('search'))
         }
     }
 

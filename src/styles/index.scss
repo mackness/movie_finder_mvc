@@ -204,3 +204,15 @@ body {
 .movie-details-rating-value {
     font-weight: bold;
 }
+
+// No Results View
+// --------------------------------------------------
+
+.no-results-view {
+    width: 100%;
+    height: 80px;
+    text-align: center;
+    align-items: center;
+    padding: 0 10px;
+    color: darken($color: $brand-secondary, $amount: 40%);
+}
