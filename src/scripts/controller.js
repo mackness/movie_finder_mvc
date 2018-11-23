@@ -17,8 +17,8 @@ export default class Controller {
 
     /**
      * @param  {ApiResponse} response api response object
-     * @description should take the api response and pass it to the 
-     * view for rendering
+     * @description should take the api response and pass it to the
+     * view for rendering.
      */
     processApiResponse = (response) => {
         this.model.purgeMovieDetailsCache();
@@ -53,8 +53,9 @@ export default class Controller {
 
     /**
      * @param  {!{x: number, y: number}} response api response object
-     * @description should take the api response and pass it to the 
-     * view for rendering
+     * @description 
+     * This method take the X, Y offset of the event target and users it to determine 
+     * the position of the movie details panel.
      */
     calculateMovieDetailPosition = (coords) => {
         const { clientWidth } = qs('.hover-target');
@@ -72,18 +73,17 @@ export default class Controller {
     }
 
     /**
-     * @param  {HTMLElement} target mouseover HTML target element
+     * @param  {HTMLElement} target event target HTMLElement
      * @param  {number} _index index of movie grid item
-     * @description should take the api response and pass it to the
-     * view for rendering
+     * @description This method takes the target HTMLElement from one of the events in the view as 
+     * well as the index of the grid item and handles rendering the movie  details panel. Note that
+     * the model has a movie details cache so a request will  not be made if cached movie details
+     * data exists.
      */
     displayMovieDetailPanel = (target, _index) => {
         const index = parseInt(_index, 10);
         const id = this.model.currentMovieList.length && this.model.currentMovieList[index].imdbID;
-        const position = this.calculateMovieDetailPosition({
-            x: target.offsetParent.offsetLeft, 
-            y: target.offsetParent.offsetTop
-        });
+        const position = this.calculateMovieDetailPosition({x: target.offsetParent.offsetLeft, y: target.offsetParent.offsetTop});
 
         this.view.renderMovieDetailPanel(null, position);
 
@@ -96,7 +96,7 @@ export default class Controller {
     }
 
     /**
-     * @description remove details panel from document
+     * @description remove details panel from document.
      */
     onMovieMouseExit = () => {
         this.view.removeMovieDetailsPanel();
