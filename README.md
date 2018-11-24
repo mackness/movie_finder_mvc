@@ -4,7 +4,7 @@ Welcome to my Netflix take home assessment. Take a look at the instructions belo
 ## Setup:
 ```
 > git clone https://macksol@bitbucket.org/macksol/netflix-assessment.git
-> cd netflix
+> cd netflix-assessment
 > yarn
 > yarn start
 > Navigate to http://localhost:1234/?search=batman in Chrome, Firefox, Safari or Edge.
