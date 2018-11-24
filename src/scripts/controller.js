@@ -28,7 +28,7 @@ export default class Controller {
     /**
      * @description setupView runs when the view loads for the first time and checks
      * if the search query param exists, If it does execute a movie search with
-     * the valud of the search param.
+     * the value of the search param.
      */
     setupView = () => {
         const term = getSearchParam('search');
