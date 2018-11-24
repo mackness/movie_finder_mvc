@@ -10,6 +10,11 @@ Welcome to my Netflix take home assessment. Take a look at the instructions belo
 > Navigate to http://localhost:1234/?search=batman in Chrome, Firefox, Safari or Edge.
 ```
 
+## Test:
+```
+> yarn test
+```
+
 ## Notes:
 - Decided to take a very standard MVC approach to application structure.
 - Used Parcel because I wanted to use JS modules but didn't want to setup Webpack.

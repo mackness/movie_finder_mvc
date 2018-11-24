@@ -40,8 +40,7 @@ export default class Controller {
 
     /**
      * @param  {Object} event onchange event object
-     * @description dispatch a serch request when the search input 
-     * value changes
+     * @description dispatch a serch request when the search input value changes
      */
     onSearchInput(event) {
         const term = event.target.value;
@@ -53,8 +52,7 @@ export default class Controller {
 
     /**
      * @param  {!{x: number, y: number}} response api response object
-     * @description 
-     * This method take the X, Y offset of the event target and users it to determine 
+     * @description This method take the X, Y offset of the event target and users it to determine 
      * the position of the movie details panel.
      */
     calculateMovieDetailPosition = (coords) => {
@@ -67,7 +65,7 @@ export default class Controller {
         } else {
             return {
                 top: coords.y,
-                left: (coords.x >= clientWidth * 3) ? clientWidth * 3 - (this.DETAILS_CARD_WIDTH / 1.5): coords.x + clientWidth
+                left: (coords.x >= clientWidth * 3) ? clientWidth * 3 - (this.DETAILS_CARD_WIDTH / 1.5) : coords.x + clientWidth
             }
         }
     }
