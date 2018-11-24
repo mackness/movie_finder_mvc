@@ -3,9 +3,10 @@ import { ApiResponse } from './types';
 
 export default class Model {
 
-    constructor() {
+    constructor(options) {
         this.currentMovieList = [];
         this.movieDetailsCache = {};
+        this._axios = (options && options.axiosInstance) ? options.axiosInstance : axios;
     }
 
     /**
@@ -27,28 +28,28 @@ export default class Model {
      * @description Search for a movie with a URI encoded serch term
      */
     search = (term) => {
-        return axios
-                .get(`http://www.omdbapi.com/?apikey=${process.env.API_TOKEN}&s=${encodeURIComponent(term)}`)
-                .then((response) => {
-                    this.currentMovieList = response.data.Search
-                    return response;
-                })
-                .then((response) => this.validateApiResponse(response));
+        return this._axios
+                    .get(`http://www.omdbapi.com/?apikey=${process.env.API_TOKEN}&s=${encodeURIComponent(term)}`)
+                    .then((response) => {
+                        this.currentMovieList = response.data.Search
+                        return response;
+                    })
+                    .then((response) => this.validateApiResponse(response));
     }
 
     /**
      * @param  {string} id movie imdbID as a string
      * @return  {ApiResponse} details API response
-     * @description Get movie detials by movie Id
+     * @description Get movie detials by imdbID
      */
-    loadMovieDetails(index, id) {
-        if (this.movieDetailsCache[index]) {
-            return Promise.resolve(this.movieDetailsCache[index]);
+    loadMovieDetails(id) {
+        if (this.movieDetailsCache[id]) {
+            return Promise.resolve(this.movieDetailsCache[id]);
         } else {
-            return axios
-                .get(`http://www.omdbapi.com/?apikey=${process.env.API_TOKEN}&i=${encodeURIComponent(id)}`)
-                .then((response) => this.movieDetailsCache[index] = response)
-                .then((response) => this.validateApiResponse(response));
+            return this._axios
+                        .get(`http://www.omdbapi.com/?apikey=${process.env.API_TOKEN}&i=${encodeURIComponent(id)}`)
+                        .then((response) => this.movieDetailsCache[id] = response)
+                        .then((response) => this.validateApiResponse(response));
         }
     }
 

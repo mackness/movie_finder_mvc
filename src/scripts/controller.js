@@ -87,8 +87,8 @@ export default class Controller {
 
         this.view.renderMovieDetailPanel(null, position);
 
-        if (Number.isInteger(index) && id) {
-            this.model.loadMovieDetails(index, id)
+        if (id) {
+            this.model.loadMovieDetails(id)
                 .then((response) => response.data)
                 .then((response) => this.view.renderMovieDetailPanel(response, position))
                 .catch(() => alert('There was an error loading movie details'));

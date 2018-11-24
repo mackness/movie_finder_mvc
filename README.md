@@ -16,6 +16,6 @@ Welcome to my Netflix take home assessment. Take a look at the instructions belo
 - Used Axios for data fetching becuase it's very easy to use and has a great testing story.
 
 ## TODO:
-- Tests. I gave myself 4 - 6 hours to complete the assessment and ran out of time.
+- Tests. I gave myself 6 - 8 hours to complete the assessment and only had time to write a test for the Model class.
 - Improve animation handling.
 - Implement pagination or continuous loading of movie results.
