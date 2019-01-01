@@ -1,10 +1,11 @@
-# Netflix Take Home Assessment
-Welcome to my Netflix take home assessment. Take a look at the instructions below to setup the project.
+# Mini Movie Finder
+A tiny application that fetches movies from the IMDB API. This app was built for fun and demostration purposes.
 
 ## Setup:
 ```
-> git clone https://macksol@bitbucket.org/macksol/netflix-assessment.git
-> cd netflix-assessment
+> git clone https://macksol@bitbucket.org/macksol/movie-finder.git
+> cd movie-finder
+> echo API_KEY=[YOUR_IMDB_API_KEY] > .env
 > yarn
 > yarn start
 > Navigate to http://localhost:1234/?search=batman in Chrome, Firefox, Safari or Edge.
