@@ -3,10 +3,10 @@ import { ApiResponse } from './types';
 
 export default class Model {
 
-    constructor(options) {
+    constructor({axiosInstance} = {}) {
         this.currentMovieList = [];
         this.movieDetailsCache = {};
-        this._axios = (options && options.axiosInstance) ? options.axiosInstance : axios;
+        this._axios = axiosInstance ? axiosInstance : axios;
     }
 
     /**
@@ -29,7 +29,7 @@ export default class Model {
      */
     search = (term) => {
         return this._axios
-                    .get(`http://www.omdbapi.com/?apikey=${process.env.API_TOKEN}&s=${encodeURIComponent(term)}`)
+                    .get(`http://www.omdbapi.com`, {params: { apikey: process.env.API_TOKEN, s: encodeURIComponent(term)}})
                     .then((response) => {
                         this.currentMovieList = response.data.Search
                         return response;
@@ -47,7 +47,7 @@ export default class Model {
             return Promise.resolve(this.movieDetailsCache[id]);
         } else {
             return this._axios
-                        .get(`http://www.omdbapi.com/?apikey=${process.env.API_TOKEN}&i=${encodeURIComponent(id)}`)
+                        .get(`http://www.omdbapi.com`, {params: {apikey: process.env.API_TOKEN, i: encodeURIComponent(id)}})
                         .then((response) => this.movieDetailsCache[id] = response)
                         .then((response) => this.validateApiResponse(response));
         }
