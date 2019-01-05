@@ -16,6 +16,7 @@ describe('Model', () => {
 
         it('should respond with results for a search term', () => {
             mockAxiosInstance.onGet('http://www.omdbapi.com', params).replyOnce(200, mockSearchResponse);
+
             model.search('batman')
                 .then((response) => {
                     assert.equal(response.status, 200);
@@ -33,7 +34,8 @@ describe('Model', () => {
                     500,
                     { error: 'Internal Server Error: 500' }
                 ]
-            })
+            });
+
             model.search('batman')
                 .catch((error) => {
                     assert.equal(error.response.status, 500);
@@ -53,6 +55,7 @@ describe('Model', () => {
 
         it('should respond with movie detail results based on a movie id', () => {
             mockAxiosInstance.onGet('http://www.omdbapi.com', params).replyOnce(200, mockDetailResponse);
+
             model.loadMovieDetails(imdbID)
                 .then((response) => {
                     assert.equal(response.status, 200);
@@ -73,19 +76,32 @@ describe('Model', () => {
             mockAxiosInstance.onGet('http://www.omdbapi.com', params).replyOnce((config) => {
                 return [
                     500,
-                    { error: 'Internal Server Error: 500' }
+                    { error: 'Internal Server Error: 500' },
+                    {'x-cache': 'miss'}
                 ];
             });
             model.loadMovieDetails(imdbID)
                 .catch((error) => {
+                    assert.equal(error.response.headers['x-cache'], 'miss');
                     assert.equal(error.response.status, 500);
                 });
         });
 
         it('should pass thought to the real imdb api and get a 401 response', (done) => {
             mockAxiosInstance.onGet('http://www.omdbapi.com', params).passThrough();
+
             model.loadMovieDetails(imdbID).catch((error) => {
                 assert.equal(error.response.status, 401);
+                done();
+            })
+        });
+
+        it('should timeout and respond with ECONNABORTED', (done) => {
+            mockAxiosInstance.onGet('http://www.omdbapi.com', params).timeoutOnce();
+
+            model.loadMovieDetails(imdbID).catch((error) => {
+                console.log(error);
+                assert.equal(error.code, 'ECONNABORTED');
                 done();
             })
         })
