@@ -6,17 +6,29 @@ import Model from '../scripts/model';
 const mockAxiosInstance = new MockAdapter(axios);
 const model = new Model(mockAxiosInstance);
 
+mockAxiosInstance
+    .onAny((config) => {
+        return [
+            404,
+            { error: 'N' }
+        ]
+    })
+
 describe('Model', () => {
     describe('Movie Search Request', () => {
+        // load the mock response object
         const mockSearchResponse = require('./mock-search-response');
+        // setup the query params for the search request mocks
         const params = {
             apikey: process.env.API_TOKEN,
             s: 'batman'
         };
 
         it('should respond with results for a search term', () => {
+            // use onGet request matcher and replyOnce request handler to mock the search request
             mockAxiosInstance.onGet('http://www.omdbapi.com', params).replyOnce(200, mockSearchResponse);
 
+            // make the search request for batman query term
             model.search('batman')
                 .then((response) => {
                     assert.equal(response.status, 200);
@@ -29,10 +41,12 @@ describe('Model', () => {
         });
 
         it('should catch if response status code is not in 200 - 206 range', () => {
+            // request matcher functions accept a callback that allow for response configuration
+            // [status, responseObject, headerObject]
             mockAxiosInstance.onGet('http://www.omdbapi.com', params).replyOnce(() => {
                 return [
-                    500,
-                    { error: 'Internal Server Error: 500' }
+                    500,                                       // status code
+                    { error: 'Internal Server Error: 500' }    // response object
                 ]
             });
 
@@ -75,9 +89,9 @@ describe('Model', () => {
         it('should throw if response status is not in 200 - 206 range', () => {
             mockAxiosInstance.onGet('http://www.omdbapi.com', params).replyOnce((config) => {
                 return [
-                    500,
-                    { error: 'Internal Server Error: 500' },
-                    {'x-cache': 'miss'}
+                    500,                                        // status code
+                    { error: 'Internal Server Error: 500' },    // response object
+                    {'x-cache': 'miss'}                         // response headers
                 ];
             });
             model.loadMovieDetails(imdbID)
@@ -87,23 +101,22 @@ describe('Model', () => {
                 });
         });
 
-        it('should pass thought to the real imdb api and get a 401 response', (done) => {
-            mockAxiosInstance.onGet('http://www.omdbapi.com', params).passThrough();
-
-            model.loadMovieDetails(imdbID).catch((error) => {
-                assert.equal(error.response.status, 401);
-                done();
-            })
-        });
-
         it('should timeout and respond with ECONNABORTED', (done) => {
             mockAxiosInstance.onGet('http://www.omdbapi.com', params).timeoutOnce();
 
             model.loadMovieDetails(imdbID).catch((error) => {
-                console.log(error);
                 assert.equal(error.code, 'ECONNABORTED');
                 done();
             })
-        })
+        });
+
+        it('should pass thought to the real imdb api and get a 401 response', (done) => {
+            mockAxiosInstance.onGet('http://www.omdbapi.com', params).passThrough();
+
+            model.loadMovieDetails(imdbID).then((error) => {
+                    assert.tobeDefined(error.response.status, 401);
+                    done();
+                });
+        });
     });
 });
