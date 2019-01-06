@@ -15,7 +15,7 @@ export default class Model {
      * @description Validate the API response by making sure it's in a successful range
      * according to RFC 7231 (https://goo.gl/GA9Ncp)
      */
-    validateApiResponse(response) {
+    validateApiResponse = (response) => {
         if (response.data.status >= 200 && response.data.status <= 206) {
             alert('We\'re having trouble connecting to the API, please try again later');
         }
@@ -42,7 +42,7 @@ export default class Model {
      * @return  {ApiResponse} details API response
      * @description Get movie detials by imdbID
      */
-    loadMovieDetails(id) {
+    loadMovieDetails = (id) => {
         if (this.movieDetailsCache[id]) {
             return Promise.resolve(this.movieDetailsCache[id]);
         } else {

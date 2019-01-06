@@ -18,7 +18,7 @@ describe('Model', () => {
     describe('Movie Search Request', () => {
         // load the mock response object
         const mockSearchResponse = require('./mock-search-response');
-        // setup the query params for the search request mocks
+        // setup the query params for the search mock requests
         const params = {
             apikey: process.env.API_TOKEN,
             s: 'batman'
@@ -113,8 +113,9 @@ describe('Model', () => {
         it('should pass thought to the real imdb api and get a 401 response', (done) => {
             mockAxiosInstance.onGet('http://www.omdbapi.com', params).passThrough();
 
-            model.loadMovieDetails(imdbID).then((error) => {
-                    assert.tobeDefined(error.response.status, 401);
+            model.loadMovieDetails(imdbID).then((response) => {
+                console.log(response);
+                    assert.tobeDefined(response.status, 200);
                     done();
                 });
         });
