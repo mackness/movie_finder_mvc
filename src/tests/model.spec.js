@@ -6,13 +6,14 @@ import Model from '../scripts/model';
 const mockAxiosInstance = new MockAdapter(axios);
 const model = new Model(mockAxiosInstance);
 
+// This is catch all and will be the fallback if no requests are matched
 mockAxiosInstance
     .onAny((config) => {
-        return [
-            404,
-            { error: 'N' }
-        ]
-    })
+        return [404, { 
+            error: 'No matched requests found',
+            config: JSON.stringify(config) 
+        }]
+    });
 
 describe('Model', () => {
     describe('Movie Search Request', () => {
@@ -114,10 +115,9 @@ describe('Model', () => {
             mockAxiosInstance.onGet('http://www.omdbapi.com', params).passThrough();
 
             model.loadMovieDetails(imdbID).then((response) => {
-                console.log(response);
-                    assert.tobeDefined(response.status, 200);
-                    done();
-                });
+                assert.equal(response.status, 200);
+                done();
+            });
         });
     });
 });
