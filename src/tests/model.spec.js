@@ -70,10 +70,13 @@ describe('Model', () => {
         };
 
         it('should respond with movie detail results based on a movie id', () => {
-            mockAxiosInstance.onGet('http://www.omdbapi.com', params).replyOnce(200, mockDetailResponse);
+            mockAxiosInstance.onGet('http://www.omdbapi.com', params).replyOnce(() => {
+                return [200, mockDetailResponse, { 'x-cache': 'hit' }]
+            });
 
             model.loadMovieDetails(imdbID)
                 .then((response) => {
+                    assert.equal(response.headers['x-cache'], 'hit');
                     assert.equal(response.status, 200);
                     assert.deepEqual(response.data, mockDetailResponse);
                 })
