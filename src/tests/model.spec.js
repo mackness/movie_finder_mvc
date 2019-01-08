@@ -3,10 +3,11 @@ import MockAdapter from 'axios-mock-adapter';
 import assert from 'assert';
 import Model from '../scripts/model';
 
+// setup the MockAdapter and Model instances passing the MockAdapter into the Model
 const mockAxiosInstance = new MockAdapter(axios);
 const model = new Model(mockAxiosInstance);
 
-// This is catch all and will be the fallback if no requests are matched
+// this is catch all and will be the fallback if no requests are matched
 mockAxiosInstance
     .onAny((config) => {
         return [404, { 
