@@ -1,5 +1,5 @@
 # Mini Movie Finder
-A tiny application that fetches movies from the IMDB API. This app was built for fun and demostration purposes.
+An application that fetches movies from the IMDB API. I wanted to build this app to take a step back from JS framekworks. I wrote this app with as few rumtime dependencies as possible. It depends on lodash.throttle and axios at runtime, that's it.
 
 ## Setup:
 ```
