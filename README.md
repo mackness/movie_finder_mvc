@@ -3,7 +3,7 @@ An application that fetches movies from the IMDB API. I wanted to build this app
 
 ## Setup:
 ```
-> git clone https://macksol@bitbucket.org/macksol/movie-finder.git
+> git clone https://github.com/mackness/MVC-Movie-Finder.git
 > cd movie-finder
 > echo API_KEY=[YOUR_IMDB_API_KEY] > .env
 > yarn
